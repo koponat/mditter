@@ -42,7 +42,7 @@ public class MditterScreen extends Screen {
 
     @Override
     public void render(DrawContext dc, int mx, int my, float d) {
-        this.renderBackground(dc);
+        this.renderBackground(dc, mx, my, d);
         String title = PacketBlinker.getLang("欢迎使用 MDITTER", "WELCOME TO MDITTER");
         dc.drawCenteredTextWithShadow(this.textRenderer, title, this.width / 2, 40, 0x00FF00);
         super.render(dc, mx, my, d);
