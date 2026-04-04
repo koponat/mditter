@@ -16,9 +16,10 @@ public class MditterMod implements ModInitializer {
     public void onInitialize() {
         HudRenderCallback.EVENT.register((drawContext, tickDelta) -> {
             if (PacketBlinker.isActive()) {
+                String hudText = PacketBlinker.getLang("§c[MDITTER] 数据包拦截已开启", "§c[MDITTER] PACKET FREEZE ACTIVE");
                 drawContext.drawTextWithShadow(
                     MinecraftClient.getInstance().textRenderer,
-                    Text.translatable("hud.mditter.active"),
+                    hudText,
                     10, 10, 0xFFFFFF
                 );
             }
