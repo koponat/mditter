@@ -9,40 +9,42 @@ import net.minecraft.text.Text;
 public class MditterScreen extends Screen {
 
     public MditterScreen() {
-        super(Text.literal("MDITTER MENU"));
+        super(Text.literal("MDITTER Control Panel"));
     }
 
     @Override
     protected void init() {
-        int buttonWidth = 200;
-        int buttonHeight = 20;
-        int x = (this.width - buttonWidth) / 2;
-        int y = (this.height / 2);
+        int centerX = this.width / 2;
+        int centerY = this.height / 2;
 
-        this.addDrawableChild(ButtonWidget.builder(getButtonText(), button -> {
-            PacketBlinker.setBlinking(!PacketBlinker.isBlinking());
-            button.setMessage(getButtonText());
-        }).dimensions(x, y, buttonWidth, buttonHeight).build());
+        this.addDrawableChild(ButtonWidget.builder(getToggleText(), button -> {
+            PacketBlinker.toggle();
+            button.setMessage(getToggleText());
+        }).dimensions(centerX - 100, centerY, 200, 20).build());
+
+        this.addDrawableChild(ButtonWidget.builder(Text.literal("Close Menu"), button -> {
+            this.close();
+        }).dimensions(centerX - 100, centerY + 30, 200, 20).build());
     }
 
-    private Text getButtonText() {
-        String status = PacketBlinker.isBlinking() ? "ON (STOP SENDING)" : "OFF (NORMAL)";
-        return Text.literal("Packet Block: " + status);
+    private Text getToggleText() {
+        String status = PacketBlinker.isActive() ? "ON (BLOCKING PACKETS)" : "OFF (NORMAL)";
+        return Text.literal("Network Status: " + status);
     }
 
     @Override
     public void render(DrawContext context, int mouseX, int mouseY, float delta) {
         this.renderBackground(context);
+
+        int centerX = this.width / 2;
         
-        float scale = 2.0f;
-        context.getMatrices().push();
-        context.getMatrices().scale(scale, scale, scale);
-        
-        int titleX = (int)((this.width / scale - this.textRenderer.getWidth("Welcome to MDITTER")) / 2);
-        context.drawTextWithShadow(this.textRenderer, "Welcome to MDITTER", titleX, (int)(this.height / scale / 4), 0xFFFFFF);
-        
-        context.getMatrices().pop();
-        
+        context.drawCenteredTextWithShadow(this.textRenderer, "WELCOME TO MDITTER", centerX, this.height / 4, 0x00FF00);
+        context.drawCenteredTextWithShadow(this.textRenderer, "Advanced Client-Side Packet Controller", centerX, this.height / 4 + 15, 0xAAAAAA);
+
+        String currentStatus = PacketBlinker.isActive() ? "PROTECTED" : "UNPROTECTED";
+        int statusColor = PacketBlinker.isActive() ? 0xFF5555 : 0x55FF55;
+        context.drawCenteredTextWithShadow(this.textRenderer, "Current State: " + currentStatus, centerX, this.height / 4 + 40, statusColor);
+
         super.render(context, mouseX, mouseY, delta);
     }
 
