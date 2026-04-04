@@ -1,0 +1,7 @@
+{
+  "menu.mditter.welcome": "WELCOME TO MDITTER",
+  "menu.mditter.status": "Network Status: %s",
+  "menu.mditter.blocking": "BLOCKING",
+  "menu.mditter.normal": "NORMAL",
+  "hud.mditter.active": "§c[MDITTER] PACKET FREEZE ACTIVE"
+}
