@@ -18,7 +18,7 @@ public class MditterMod implements ModInitializer {
             if (PacketBlinker.isActive()) {
                 drawContext.drawTextWithShadow(
                     MinecraftClient.getInstance().textRenderer,
-                    "§c[MDITTER] PACKET FREEZE ACTIVE",
+                    Text.translatable("hud.mditter.active"),
                     10, 10, 0xFFFFFF
                 );
             }
@@ -26,18 +26,12 @@ public class MditterMod implements ModInitializer {
 
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             if (client == null || client.getWindow() == null) return;
-            
             long handle = client.getWindow().getHandle();
             boolean isPressed = GLFW.glfwGetKey(handle, GLFW.GLFW_KEY_RIGHT_SHIFT) == GLFW.GLFW_PRESS;
-            
             if (isPressed && !wasPressed && client.currentScreen == null) {
                 client.setScreen(new MditterScreen());
             }
             wasPressed = isPressed;
-            
-            if (PacketBlinker.isActive() && client.player != null) {
-                client.player.sendMessage(Text.literal("§eMDITTER is suppressing outgoing data..."), true);
-            }
         });
     }
 }
