@@ -3,31 +3,16 @@ on: [push, pull_request]
 
 jobs:
   build:
-    strategy:
-      matrix:
-        java: [17]
     runs-on: ubuntu-latest
     steps:
       - name: checkout repository
         uses: actions/checkout@v4
 
-      - name: validate gradle wrapper
-        uses: gradle/wrapper-validation-action@v1
-
-      - name: setup jdk ${{ matrix.java }}
+      - name: setup jdk 17
         uses: actions/setup-java@v4
         with:
-          java-version: ${{ matrix.java }}
+          java-version: '17'
           distribution: 'microsoft'
 
-      - name: make gradle executable
-        run: chmod +x gradlew
-
-      - name: build jar
-        run: ./gradlew build
-
-      - name: capture build artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: MDITTER-Artifacts
-          path: build/libs/*.jar
+      - name: build with gradle
+        run: gradle build
