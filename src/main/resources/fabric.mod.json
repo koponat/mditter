@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "id": "mditter",
+  "version": "${version}",
+  "name": "MDITTER",
+  "description": "Stop sending packets to the server.",
+  "authors": ["koponat"],
+  "license": "GPL-3.0-or-later",
+  "environment": "client",
+  "entrypoints": {
+    "main": ["com.koponat.mditter.MditterMod"]
+  },
+  "mixins": ["mditter.mixins.json"],
+  "depends": {
+    "fabricloader": ">=0.14.22",
+    "minecraft": "~1.20.1",
+    "java": ">=17",
+    "fabric-api": "*"
+  }
+}
