@@ -1,28 +1,44 @@
 package com.koponat.mditter;
 
-import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import com.koponat.mditter.gui.MditterScreen;
 import com.koponat.mditter.network.PacketBlinker;
-import org.lwjgl.glfw.GLFW;
+import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
+import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.text.Text;
+import org.lwjgl.glfw.GLFW;
 
 public class MditterMod implements ModInitializer {
 
+    private boolean wasPressed = false;
+
     @Override
     public void onInitialize() {
-        ClientTickEvents.END_CLIENT_TICK.register(client -> {
-            if (client.player == null) return;
+        HudRenderCallback.EVENT.register((drawContext, tickDelta) -> {
+            if (PacketBlinker.isActive()) {
+                drawContext.drawTextWithShadow(
+                    MinecraftClient.getInstance().textRenderer,
+                    "§c[MDITTER] PACKET FREEZE ACTIVE",
+                    10, 10, 0xFFFFFF
+                );
+            }
+        });
 
-            while (GLFW.glfwGetKey(client.getWindow().getHandle(), GLFW.GLFW_KEY_RIGHT_SHIFT) == GLFW.GLFW_PRESS) {
+        ClientTickEvents.END_CLIENT_TICK.register(client -> {
+            if (client.window == null) return;
+
+            boolean isPressed = GLFW.glfwGetKey(client.getWindow().getHandle(), GLFW.GLFW_KEY_RIGHT_SHIFT) == GLFW.GLFW_PRESS;
+
+            if (isPressed && !wasPressed) {
                 if (client.currentScreen == null) {
                     client.setScreen(new MditterScreen());
                 }
-                break;
             }
+            wasPressed = isPressed;
 
-            if (PacketBlinker.isBlinking()) {
-                client.player.sendMessage(Text.literal("§c[MDITTER] Packet Sending: BLOCKED"), true);
+            if (PacketBlinker.isActive() && client.player != null) {
+                client.player.sendMessage(Text.literal("§eMDITTER is suppressing outgoing data..."), true);
             }
         });
     }
