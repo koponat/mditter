@@ -1,4 +1,4 @@
-name: build
+name: mditter
 on: [push, pull_request]
 
 jobs:
@@ -25,5 +25,5 @@ jobs:
       - name: upload artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: MDITTER-jar
+          name: mditter-v1.1-jar
           path: build/libs/*.jar
