@@ -1,18 +1,24 @@
-name: build
-on: [push, pull_request]
+plugins {
+    id 'fabric-loom' version '1.2-SNAPSHOT'
+}
 
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - name: checkout repository
-        uses: actions/checkout@v4
+version = "1.0.0"
+group = "com.koponat"
 
-      - name: setup jdk 17
-        uses: actions/setup-java@v4
-        with:
-          java-version: '17'
-          distribution: 'microsoft'
+repositories {
+    mavenCentral()
+}
 
-      - name: build with gradle
-        run: gradle build
+dependencies {
+    minecraft "com.mojang:minecraft:1.20.1"
+    mappings "net.fabricmc:yarn:1.20.1+build.10:v2"
+    modImplementation "net.fabricmc:fabric-loader:0.14.22"
+    modImplementation "net.fabricmc.fabric-api:fabric-api:0.83.0+1.20.1"
+}
+
+processResources {
+    inputs.property "version", project.version
+    filesMatching("fabric.mod.json") {
+        expand "version": project.version
+    }
+}
