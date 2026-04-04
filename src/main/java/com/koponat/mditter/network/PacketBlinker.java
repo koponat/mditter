@@ -37,7 +37,7 @@ public class PacketBlinker {
         fakePlayer.copyPositionAndRotation(client.player);
         fakePlayer.headYaw = client.player.headYaw;
         fakePlayer.setUuid(UUID.randomUUID());
-        client.world.addEntity(fakePlayer.getId(), fakePlayer);
+        client.world.addEntity(fakePlayer);
     }
 
     private static void removeFakePlayer() {
