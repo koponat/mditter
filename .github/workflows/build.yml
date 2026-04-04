@@ -1,24 +1,24 @@
-plugins {
-    id 'fabric-loom' version '1.2-SNAPSHOT'
-}
+name: build
+on: [push, pull_request]
 
-version = "1.0.0"
-group = "com.koponat"
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout repository
+        uses: actions/checkout@v4
 
-repositories {
-    mavenCentral()
-}
+      - name: setup jdk 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'microsoft'
 
-dependencies {
-    minecraft "com.mojang:minecraft:1.20.1"
-    mappings "net.fabricmc:yarn:1.20.1+build.10:v2"
-    modImplementation "net.fabricmc:fabric-loader:0.14.22"
-    modImplementation "net.fabricmc.fabric-api:fabric-api:0.83.0+1.20.1"
-}
+      - name: build with gradle
+        run: gradle build
 
-processResources {
-    inputs.property "version", project.version
-    filesMatching("fabric.mod.json") {
-        expand "version": project.version
-    }
-}
+      - name: upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: MDITTER-jar
+          path: build/libs/*.jar
