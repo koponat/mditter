@@ -14,7 +14,7 @@ public class MixinClientConnection {
 
     @Inject(at = @At("HEAD"), method = "send(Lnet/minecraft/network/packet/Packet;Lnet/minecraft/network/PacketCallbacks;Z)V", cancellable = true)
     private void onSendPacket(Packet<?> packet, PacketCallbacks callbacks, boolean flush, CallbackInfo ci) {
-        if (PacketBlinker.shouldCancelPacket(packet)) {
+        if (PacketBlinker.isActive()) {
             ci.cancel();
         }
     }
