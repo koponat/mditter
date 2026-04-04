@@ -10,3 +10,7 @@ https://github.com/koponat/mditter/releases
 召唤mditter ui界面
 
 按一下键盘上的右边的shift按钮即可完成召唤
+
+——————————————————————————————————————————————
+
+你需要用到fabric mod加载器和fabric api进行搭载mditter
