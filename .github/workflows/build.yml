@@ -17,7 +17,17 @@ jobs:
       - name: setup gradle
         uses: gradle/actions/setup-gradle@v4
         with:
-          gradle-version: 8.10.2  
+          gradle-version: 8.10.2
 
       - name: build with gradle
-        run: gradle build --no-daemon  
+        run: gradle build --no-daemon
+
+      - name: upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: mditter-v1.3-1.21-FINAL
+          # 使用更宽泛的路径，确保能抓到 build/libs 下的所有文件
+          path: |
+            build/libs/*.jar
+            !build/libs/*-dev.jar
+            !build/libs/*-sources.jar
