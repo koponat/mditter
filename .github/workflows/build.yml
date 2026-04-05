@@ -8,7 +8,7 @@ jobs:
       - name: checkout repository
         uses: actions/checkout@v4
 
-      - name: setup jdk 21  # 必须使用 Java 21
+      - name: setup jdk 21
         uses: actions/setup-java@v4
         with:
           java-version: '21'
@@ -17,7 +17,7 @@ jobs:
       - name: setup gradle
         uses: gradle/actions/setup-gradle@v3
         with:
-          gradle-version: 8.8
+          gradle-version: 8.10  # 升级到 8.10 以配合 Loom 1.9
 
       - name: build with gradle
         run: gradle build
@@ -25,5 +25,5 @@ jobs:
       - name: upload artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: mditter-v1.3-1.21
+          name: mditter-v1.3-1.21.x-universal
           path: build/libs/*.jar
