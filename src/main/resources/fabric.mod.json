@@ -3,7 +3,7 @@
   "id": "mditter",
   "version": "${version}",
   "name": "MDITTER",
-  "description": "Ghost mode with Anti-Disconnect (v1.3 for 1.20.3-1.20.6)",
+  "description": "Ghost mode for 1.21",
   "authors": ["koponat"],
   "license": "GPL-3.0-or-later",
   "environment": "client",
@@ -12,9 +12,9 @@
   },
   "mixins": ["mditter.mixins.json"],
   "depends": {
-    "fabricloader": ">=0.15.7",
-    "minecraft": ">=1.20.3",
-    "java": ">=17",
+    "fabricloader": ">=0.15.11",
+    "minecraft": ">=1.21",
+    "java": ">=21",
     "fabric-api": "*"
   }
 }
