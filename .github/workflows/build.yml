@@ -17,7 +17,7 @@ jobs:
       - name: setup gradle
         uses: gradle/actions/setup-gradle@v3
         with:
-          gradle-version: 8.5
+          gradle-version: 8.8  # 这里升级到 8.8 以支持 Loom 1.6
 
       - name: build with gradle
         run: gradle build
