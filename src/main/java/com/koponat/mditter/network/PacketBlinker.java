@@ -13,32 +13,18 @@ public class PacketBlinker {
 
     public static void toggle(MinecraftClient client) {
         active = !active;
-        if (active) {
-            spawnFakePlayer(client);
-        } else {
-            removeFakePlayer();
-        }
+        if (active) spawnFakePlayer(client);
+        else removeFakePlayer();
     }
 
     public static boolean shouldCancel(Packet<?> packet) {
         if (!active) return false;
-        if (packet instanceof KeepAliveC2SPacket) {
-            return false;
-        }
-        return true;
+        return !(packet instanceof KeepAliveC2SPacket);
     }
 
-    public static void toggleLanguage() {
-        useChinese = !useChinese;
-    }
-
-    public static String getLang(String zh, String en) {
-        return useChinese ? zh : en;
-    }
-
-    public static boolean isActive() {
-        return active;
-    }
+    public static void toggleLanguage() { useChinese = !useChinese; }
+    public static String getLang(String zh, String en) { return useChinese ? zh : en; }
+    public static boolean isActive() { return active; }
 
     private static void spawnFakePlayer(MinecraftClient client) {
         if (client.player == null || client.world == null) return;
