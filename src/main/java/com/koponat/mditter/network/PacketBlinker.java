@@ -3,7 +3,7 @@ package com.koponat.mditter.network;
 import net.minecraft.client.network.OtherClientPlayerEntity;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.network.packet.Packet;
-import net.minecraft.network.packet.c2s.common.KeepAliveC2SPacket;
+import net.minecraft.network.packet.c2s.play.KeepAliveC2SPacket;
 import java.util.UUID;
 
 public class PacketBlinker {
