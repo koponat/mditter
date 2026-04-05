@@ -14,3 +14,7 @@ https://github.com/koponat/mditter/releases
 ——————————————————————————————————————————————
 
 你需要用到fabric mod加载器和fabric api进行搭载mditter
+
+ ————————————————————————————————————————————
+ 
+所有跟新视频发布地点 https://vfntl.pages.dev
