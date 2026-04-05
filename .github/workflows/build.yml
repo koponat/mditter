@@ -25,5 +25,5 @@ jobs:
       - name: upload artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: mditter-v1.3-1.20.2
+          name: mditter-v1.3-1.20.4-universal
           path: build/libs/*.jar
