@@ -15,15 +15,9 @@ jobs:
           distribution: 'microsoft'
 
       - name: setup gradle
-        uses: gradle/actions/setup-gradle@v3
+        uses: gradle/actions/setup-gradle@v4  # 升级到 v4 插件
         with:
-          gradle-version: 8.10  # 升级到 8.10 以配合 Loom 1.9
+          gradle-version: 8.10.2  # 显式指定一个具体的版本号避免歧义
 
       - name: build with gradle
-        run: gradle build
-
-      - name: upload artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: mditter-v1.3-1.21.x-universal
-          path: build/libs/*.jar
+        run: chmod +x gradlew && ./gradlew build  # 优先使用项目自带的 wrapper
