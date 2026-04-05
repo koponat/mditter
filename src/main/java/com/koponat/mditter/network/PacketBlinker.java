@@ -2,6 +2,8 @@ package com.koponat.mditter.network;
 
 import net.minecraft.client.network.OtherClientPlayerEntity;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.network.packet.Packet;
+import net.minecraft.network.packet.c2s.common.KeepAliveC2SPacket;
 import java.util.UUID;
 
 public class PacketBlinker {
@@ -16,6 +18,14 @@ public class PacketBlinker {
         } else {
             removeFakePlayer();
         }
+    }
+
+    public static boolean shouldCancel(Packet<?> packet) {
+        if (!active) return false;
+        if (packet instanceof KeepAliveC2SPacket) {
+            return false;
+        }
+        return true;
     }
 
     public static void toggleLanguage() {
@@ -37,7 +47,7 @@ public class PacketBlinker {
         fakePlayer.copyPositionAndRotation(client.player);
         fakePlayer.headYaw = client.player.headYaw;
         fakePlayer.setUuid(UUID.randomUUID());
-        client.world.addEntity(fakePlayer);
+        client.world.addEntity(fakePlayer.getId(), fakePlayer);
     }
 
     private static void removeFakePlayer() {
