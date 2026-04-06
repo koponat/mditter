@@ -1,52 +1,58 @@
-package com.koponat.mditter.gui;
+package com.koponat.mditter.network;
 
-import com.koponat.mditter.network.PacketBlinker;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.widget.ButtonWidget;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.text.Text;
+import net.minecraft.client.network.OtherClientPlayerEntity;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.network.packet.Packet;
+import net.minecraft.network.packet.c2s.play.KeepAliveC2SPacket;
+import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
+import java.util.UUID;
 
-public class MditterScreen extends Screen {
-    public MditterScreen() { super(Text.literal("MDITTER")); }
+public class PacketBlinker {
+    private static boolean active = false;
+    private static OtherClientPlayerEntity fakePlayer = null;
+    private static boolean useChinese = true;
 
-    @Override
-    protected void init() {
-        int x = this.width / 2 - 100;
-        int y = this.height / 2 - 40;
+    public static void toggle(MinecraftClient client) {
+        active = !active;
+        if (client.player == null) return;
 
-        this.addDrawableChild(ButtonWidget.builder(getToggleText(), b -> {
-            PacketBlinker.toggle(MinecraftClient.getInstance());
-            b.setMessage(getToggleText());
-        }).dimensions(x, y, 200, 20).build());
-
-        this.addDrawableChild(ButtonWidget.builder(getLangButtonText(), b -> {
-            PacketBlinker.toggleLanguage();
-            this.clearAndInit();
-        }).dimensions(x, y + 25, 200, 20).build());
-
-        // 最下方的条款按钮
-        this.addDrawableChild(ButtonWidget.builder(
-            Text.literal(PacketBlinker.getLang("mditter用户使用条款", "Mditter Terms of Service")), 
-            b -> this.client.setScreen(new MditterTermsScreen(this))
-        ).dimensions(x, y + 50, 200, 20).build());
+        if (active) {
+            spawnFakePlayer(client);
+            client.player.getAbilities().flying = true;
+            client.player.noClip = true;
+        } else {
+            removeFakePlayer();
+            client.player.getAbilities().flying = false;
+            client.player.noClip = false;
+        }
     }
 
-    private Text getToggleText() {
-        String status = PacketBlinker.isActive() ? 
-            PacketBlinker.getLang("拦截中", "BLOCKING") : 
-            PacketBlinker.getLang("正常", "NORMAL");
-        return Text.literal(PacketBlinker.getLang("网络状态: ", "Network: ") + status);
+    public static boolean shouldCancel(Packet<?> packet) {
+        if (!active) return false;
+        if (packet instanceof PlayerMoveC2SPacket) return true;
+        return !(packet instanceof KeepAliveC2SPacket);
     }
 
-    private Text getLangButtonText() {
-        return Text.literal(PacketBlinker.getLang("语言: 简体中文", "Language: English"));
+    public static void toggleLanguage() { useChinese = !useChinese; }
+    public static String getLang(String zh, String en) { return useChinese ? zh : en; }
+    public static boolean isActive() { return active; }
+
+    private static void spawnFakePlayer(MinecraftClient client) {
+        if (client.player == null || client.world == null) return;
+        fakePlayer = new OtherClientPlayerEntity(client.world, client.player.getGameProfile());
+        fakePlayer.copyFrom(client.player);
+        fakePlayer.copyPositionAndRotation(client.player);
+        fakePlayer.headYaw = client.player.headYaw;
+        fakePlayer.setUuid(UUID.randomUUID());
+        client.world.addEntity(fakePlayer.getId(), fakePlayer);
     }
 
-    @Override
-    public void render(DrawContext dc, int mx, int my, float d) {
-        this.renderBackground(dc);
-        dc.drawCenteredTextWithShadow(this.textRenderer, "MDITTER v1.4 (1.20.1)", this.width / 2, 20, 0x00FF00);
-        super.render(dc, mx, my, d);
+    private static void removeFakePlayer() {
+        if (fakePlayer != null) {
+            if (fakePlayer.getWorld() != null) {
+                fakePlayer.discard();
+            }
+            fakePlayer = null;
+        }
     }
 }
