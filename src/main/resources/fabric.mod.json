@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "mditter",
-  "version": "${version}",
+  "version": "1.4",
   "name": "MDITTER",
   "description": "Packet blinker for Minecraft",
   "authors": [
