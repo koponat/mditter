@@ -17,7 +17,7 @@ public class MditterScreen extends Screen {
         int x = this.width / 2 - 100;
         int y = this.height / 2 - 40;
 
-        // 按钮 1: 灵魂视角开关
+        // 按钮 1: 网络拦截/灵魂视角切换
         this.addDrawableChild(ButtonWidget.builder(getToggleText(), b -> {
             PacketBlinker.toggle(MinecraftClient.getInstance());
             b.setMessage(getToggleText());
@@ -29,21 +29,20 @@ public class MditterScreen extends Screen {
             this.clearAndInit();
         }).dimensions(x, y + 25, 200, 20).build());
 
-        // 按钮 3: 用户使用条款
+        // 按钮 3: 用户条款
         this.addDrawableChild(ButtonWidget.builder(
             Text.literal(PacketBlinker.getLang("mditter用户使用条款", "Mditter Terms of Service")), 
             b -> {
-                if (this.client != null) {
-                    this.client.setScreen(new MditterTermsScreen(this));
-                }
+                if (this.client != null) this.client.setScreen(new MditterTermsScreen(this));
             }
         ).dimensions(x, y + 50, 200, 20).build());
     }
 
     private Text getToggleText() {
+        // 恢复正常的命名
         String status = PacketBlinker.isActive() ? 
-            PacketBlinker.getLang("灵魂出窍 (拦截中)", "SOUL MODE (BLOCKING)") : 
-            PacketBlinker.getLang("肉身禁锢 (正常)", "BODY MODE (NORMAL)");
+            PacketBlinker.getLang("拦截开启 (灵魂视角)", "ON (SOUL MODE)") : 
+            PacketBlinker.getLang("拦截关闭 (正常)", "OFF (NORMAL)");
         return Text.literal(PacketBlinker.getLang("当前状态: ", "Status: ") + status);
     }
 
@@ -57,4 +56,4 @@ public class MditterScreen extends Screen {
         dc.drawCenteredTextWithShadow(this.textRenderer, "MDITTER v1.4", this.width / 2, 20, 0x00FF00);
         super.render(dc, mx, my, d);
     }
-} // <--- 确保这一行的大括号存在
+}
