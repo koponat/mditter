@@ -1,75 +1,58 @@
-package com.koponat.mditter.gui;
+package com.koponat.mditter.network;
 
-import com.koponat.mditter.network.PacketBlinker;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.widget.ButtonWidget;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.text.Text;
+import net.minecraft.client.network.OtherClientPlayerEntity;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.network.packet.Packet;
+import net.minecraft.network.packet.c2s.play.KeepAliveC2SPacket;
+import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
+import java.util.UUID;
 
-public class MditterScreen extends Screen {
-    public MditterScreen() {
-        super(Text.literal("MDITTER v1.4"));
+public class PacketBlinker {
+    private static boolean active = false;
+    private static OtherClientPlayerEntity fakePlayer = null;
+    private static boolean useChinese = true;
+
+    public static void toggle(MinecraftClient client) {
+        active = !active;
+        if (client.player == null) return;
+
+        if (active) {
+            spawnFakePlayer(client);
+            client.player.getAbilities().flying = true;
+            client.player.noClip = true;
+        } else {
+            removeFakePlayer();
+            client.player.getAbilities().flying = false;
+            client.player.noClip = false;
+        }
     }
 
-    @Override
-    protected void init() {
-        int x = this.width / 2 - 100;
-        int y = this.height / 2 - 40;
+    public static boolean shouldCancel(Packet<?> packet) {
+        if (!active) return false;
+        if (packet instanceof PlayerMoveC2SPacket) return true;
+        return !(packet instanceof KeepAliveC2SPacket);
+    }
 
-        // 按钮 1: 灵魂视角开关 (原网络拦截)
-        this.addDrawableChild(ButtonWidget.builder(getToggleText(), b -> {
-            PacketBlinker.toggle(MinecraftClient.getInstance());
-            b.setMessage(getToggleText());
-        }).dimensions(x, y, 200, 20).build());
+    public static void toggleLanguage() { useChinese = !useChinese; }
+    public static String getLang(String zh, String en) { return useChinese ? zh : en; }
+    public static boolean isActive() { return active; }
 
-        // 按钮 2: 语言切换
-        this.addDrawableChild(ButtonWidget.builder(getLangButtonText(), b -> {
-            PacketBlinker.toggleLanguage();
-            // 重新初始化界面以刷新所有文字
-            this.clearAndInit();
-        }).dimensions(x, y + 25, 200, 20).build());
+    private static void spawnFakePlayer(MinecraftClient client) {
+        if (client.player == null || client.world == null) return;
+        fakePlayer = new OtherClientPlayerEntity(client.world, client.player.getGameProfile());
+        fakePlayer.copyFrom(client.player);
+        fakePlayer.copyPositionAndRotation(client.player);
+        fakePlayer.headYaw = client.player.headYaw;
+        fakePlayer.setUuid(UUID.randomUUID());
+        client.world.addEntity(fakePlayer.getId(), fakePlayer);
+    }
 
-        // 按钮 3: 用户使用条款 (位于最下方)
-        this.addDrawableChild(ButtonWidget.builder(
-            Text.literal(PacketBlinker.getLang("mditter用户使用条款", "Mditter Terms of Service")), 
-            b -> {
-                if (this.client != null) {
-                    this.client.setScreen(new MditterTermsScreen(this));
-                }
+    private static void removeFakePlayer() {
+        if (fakePlayer != null) {
+            if (fakePlayer.getWorld() != null) {
+                fakePlayer.discard();
             }
-        ).dimensions(x, y + 50, 200, 20).build());
-    }
-
-    private Text getToggleText() {
-        String status = PacketBlinker.isActive() ? 
-            PacketBlinker.getLang("灵魂出窍 (拦截中)", "SOUL MODE (BLOCKING)") : 
-            PacketBlinker.getLang("肉身禁锢 (正常)", "BODY MODE (NORMAL)");
-        return Text.literal(PacketBlinker.getLang("当前状态: ", "Status: ") + status);
-    }
-
-    private Text getLangButtonText() {
-        return Text.literal(PacketBlinker.getLang("语言: 简体中文", "Language: English"));
-    }
-
-    @Override
-    public void render(DrawContext dc, int mx, int my, float d) {
-        // 1.20.1 的渲染背景方法
-        this.renderBackground(dc);
-        
-        // 标题渲染
-        dc.drawCenteredTextWithShadow(this.textRenderer, "MDITTER v1.4", this.width / 2, 20, 0x00FF00);
-        
-        // 版本提示
-        String hint = PacketBlinker.getLang("适配版本: 1.20.1", "Compatible: 1.20.1");
-        dc.drawCenteredTextWithShadow(this.textRenderer, hint, this.width / 2, 35, 0xAAAAAA);
-        
-        super.render(dc, mx, my, d);
-    }
-
-    @Override
-    public boolean shouldPause() {
-        // 打开菜单时是否暂停游戏（单机有效）
-        return false;
+            fakePlayer = null;
+        }
     }
 }
