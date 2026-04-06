@@ -3,7 +3,7 @@ package com.koponat.mditter.network;
 import net.minecraft.client.network.OtherClientPlayerEntity;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.network.packet.Packet;
-import net.minecraft.network.packet.c2s.play.KeepAliveC2SPacket; // 修正包路径
+import net.minecraft.network.packet.c2s.play.KeepAliveC2SPacket;
 import java.util.UUID;
 
 public class PacketBlinker {
@@ -19,7 +19,6 @@ public class PacketBlinker {
 
     public static boolean shouldCancel(Packet<?> packet) {
         if (!active) return false;
-        // 1.20.1 依然放行心跳包
         return !(packet instanceof KeepAliveC2SPacket);
     }
 
@@ -34,7 +33,9 @@ public class PacketBlinker {
         fakePlayer.copyPositionAndRotation(client.player);
         fakePlayer.headYaw = client.player.headYaw;
         fakePlayer.setUuid(UUID.randomUUID());
-        client.world.addEntity(fakePlayer);
+        
+        // 修正：1.20.1 需要两个参数：实体的 ID 和 实体对象本身
+        client.world.addEntity(fakePlayer.getId(), fakePlayer);
     }
 
     private static void removeFakePlayer() {
