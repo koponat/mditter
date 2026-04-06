@@ -11,8 +11,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(ClientConnection.class)
 public class MixinClientConnection {
-    @Inject(at = @At("HEAD"), method = "send(Lnet/minecraft/network/packet/Packet;Lnet/minecraft/network/PacketCallbacks;Z)V", cancellable = true)
-    private void onSend(Packet<?> p, PacketCallbacks c, boolean flush, CallbackInfo ci) {
+    @Inject(at = @At("HEAD"), method = "send(Lnet/minecraft/network/packet/Packet;Lnet/minecraft/network/PacketCallbacks;)V", cancellable = true)
+    private void onSend(Packet<?> p, PacketCallbacks c, CallbackInfo ci) {
         if (PacketBlinker.shouldCancel(p)) {
             ci.cancel();
         }
