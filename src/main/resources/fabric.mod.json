@@ -4,13 +4,19 @@
   "version": "1.4",
   "name": "MDITTER",
   "description": "Ghost Mode v1.4 for 1.20.1",
-  "authors": ["koponat"],
+  "authors": [
+    "koponat"
+  ],
   "license": "GPL-3.0-or-later",
   "environment": "client",
   "entrypoints": {
-    "main": ["com.koponat.mditter.MditterMod"]
+    "main": [
+      "com.koponat.mditter.MditterMod"
+    ]
   },
-  "mixins": ["mditter.mixins.json"],
+  "mixins": [
+    "mditter.mixins.json"
+  ],
   "depends": {
     "fabricloader": ">=0.14.22",
     "minecraft": "1.20.1",
