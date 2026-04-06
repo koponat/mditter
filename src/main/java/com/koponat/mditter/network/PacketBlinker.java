@@ -17,14 +17,14 @@ public class PacketBlinker {
         active = !active;
         if (active) {
             spawnFakePlayer(client);
-            client.player.noClip = true;
             client.player.getAbilities().flying = true;
+            client.player.noClip = true;
         } else {
             if (fakePlayer != null) {
                 client.player.refreshPositionAndAngles(fakePlayer.getX(), fakePlayer.getY(), fakePlayer.getZ(), fakePlayer.getYaw(), fakePlayer.getPitch());
             }
-            client.player.noClip = false;
             client.player.getAbilities().flying = false;
+            client.player.noClip = false;
             removeFakePlayer();
         }
     }
