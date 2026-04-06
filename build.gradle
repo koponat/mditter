@@ -1,13 +1,17 @@
 plugins {
     id 'fabric-loom' version '1.8-SNAPSHOT'
+    id 'java'
     id 'maven-publish'
 }
 
 version = "1.4-fabric-1.21.1"
 group = "com.koponat"
 
-sourceCompatibility = JavaVersion.VERSION_21
-targetCompatibility = JavaVersion.VERSION_21
+java {
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
+    withSourcesJar()
+}
 
 repositories {
     maven { url = "https://maven.fabricmc.net/" }
@@ -30,8 +34,4 @@ processResources {
 
 tasks.withType(JavaCompile).configureEach {
     it.options.release = 21
-}
-
-java {
-    withSourcesJar()
 }
