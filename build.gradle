@@ -1,5 +1,5 @@
 plugins {
-    id 'fabric-loom' version '1.4-SNAPSHOT'
+    id 'fabric-loom' version '1.7-SNAPSHOT'
     id 'java'
     id 'maven-publish'
 }
@@ -14,7 +14,6 @@ java {
 
 repositories {
     maven { url = "https://maven.fabricmc.net/" }
-    maven { url = "https://maven.terraformersmc.com/releases/" }
     mavenCentral()
 }
 
