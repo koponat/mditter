@@ -5,6 +5,7 @@ plugins {
 version = "1.4"
 group = "com.koponat"
 
+// 必须改为 21
 sourceCompatibility = JavaVersion.VERSION_21
 targetCompatibility = JavaVersion.VERSION_21
 
@@ -14,7 +15,7 @@ repositories {
 }
 
 dependencies {
-    minecraft "com.mojang:minecraft:1.21.3" // 以 1.21.3 为基准可以通杀 1.21.2-1.21.6
+    minecraft "com.mojang:minecraft:1.21.3" 
     mappings "net.fabricmc:yarn:1.21.3+build.2:v2"
     modImplementation "net.fabricmc:fabric-loader:0.16.0"
     modImplementation "net.fabricmc.fabric-api:fabric-api:0.107.0+1.21.3"
