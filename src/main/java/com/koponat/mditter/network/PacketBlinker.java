@@ -3,12 +3,12 @@ package com.koponat.mditter.network;
 import net.minecraft.client.network.OtherClientPlayerEntity;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.network.packet.Packet;
-import net.minecraft.network.packet.c2s.common.KeepAliveC2SPacket;
+import net.minecraft.network.packet.c2s.play.KeepAliveC2SPacket; // 修正包路径
 import java.util.UUID;
 
 public class PacketBlinker {
     private static boolean active = false;
-    private static OtherClientPlayerEntity fakePlayer;
+    private static OtherClientPlayerEntity fakePlayer = null;
     private static boolean useChinese = true;
 
     public static void toggle(MinecraftClient client) {
@@ -19,7 +19,7 @@ public class PacketBlinker {
 
     public static boolean shouldCancel(Packet<?> packet) {
         if (!active) return false;
-        // 1.21+ 必须放行 KeepAliveC2SPacket
+        // 1.20.1 依然放行心跳包
         return !(packet instanceof KeepAliveC2SPacket);
     }
 
@@ -38,8 +38,10 @@ public class PacketBlinker {
     }
 
     private static void removeFakePlayer() {
-        if (fakePlayer != null && fakePlayer.getWorld() != null) {
-            fakePlayer.discard();
+        if (fakePlayer != null) {
+            if (fakePlayer.getWorld() != null) {
+                fakePlayer.discard();
+            }
             fakePlayer = null;
         }
     }
