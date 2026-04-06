@@ -3,7 +3,7 @@
   "id": "mditter",
   "version": "${version}",
   "name": "MDITTER",
-  "description": "Ghost mode with Anti-Disconnect (v1.3 for 1.21.x)",
+  "description": "Ghost Mode for 1.21.x Series",
   "authors": ["koponat"],
   "license": "GPL-3.0-or-later",
   "environment": "client",
