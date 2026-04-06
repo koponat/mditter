@@ -1,22 +1,27 @@
 plugins {
     id 'fabric-loom' version '1.4-SNAPSHOT'
+    id 'java'
+    id 'maven-publish'
 }
 
-version = "1.4"
+version = "1.4-fabric-1.20.1"
 group = "com.koponat"
 
-sourceCompatibility = JavaVersion.VERSION_17
-targetCompatibility = JavaVersion.VERSION_17
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
 
 repositories {
     maven { url = "https://maven.fabricmc.net/" }
+    maven { url = "https://maven.terraformersmc.com/releases/" }
     mavenCentral()
 }
 
 dependencies {
     minecraft "com.mojang:minecraft:1.20.1"
     mappings "net.fabricmc:yarn:1.20.1+build.10:v2"
-    modImplementation "net.fabricmc:fabric-loader:0.14.22"
+    modImplementation "net.fabricmc:fabric-loader:0.15.11"
     modImplementation "net.fabricmc.fabric-api:fabric-api:0.83.0+1.20.1"
 }
 
@@ -25,4 +30,8 @@ processResources {
     filesMatching("fabric.mod.json") {
         expand "version": project.version
     }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    it.options.release = 17
 }
