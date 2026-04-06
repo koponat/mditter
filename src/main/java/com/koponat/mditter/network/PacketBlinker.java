@@ -19,6 +19,7 @@ public class PacketBlinker {
 
     public static boolean shouldCancel(Packet<?> packet) {
         if (!active) return false;
+        // 1.21+ 必须放行 KeepAliveC2SPacket
         return !(packet instanceof KeepAliveC2SPacket);
     }
 
