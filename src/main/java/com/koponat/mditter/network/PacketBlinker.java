@@ -3,7 +3,7 @@ package com.koponat.mditter.network;
 import net.minecraft.client.network.OtherClientPlayerEntity;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.network.packet.Packet;
-import net.minecraft.network.packet.c2s.play.KeepAliveC2SPacket; // 必须是 play
+import net.minecraft.network.packet.c2s.play.KeepAliveC2SPacket; 
 import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
 import java.util.UUID;
 
@@ -40,11 +40,11 @@ public class PacketBlinker {
     public static boolean isActive() { return active; }
 
     private static void spawnFakePlayer(MinecraftClient client) {
+        if (client.world == null || client.player == null) return;
         fakePlayer = new OtherClientPlayerEntity(client.world, client.player.getGameProfile());
         fakePlayer.copyFrom(client.player);
         fakePlayer.copyPositionAndRotation(client.player);
         fakePlayer.setUuid(UUID.randomUUID());
-        // 1.20.1 必须是两个参数
         client.world.addEntity(fakePlayer.getId(), fakePlayer);
     }
 
