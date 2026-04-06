@@ -4,6 +4,7 @@ import net.minecraft.client.network.OtherClientPlayerEntity;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.c2s.play.KeepAliveC2SPacket;
+import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
 import java.util.UUID;
 
 public class PacketBlinker {
@@ -13,12 +14,26 @@ public class PacketBlinker {
 
     public static void toggle(MinecraftClient client) {
         active = !active;
-        if (active) spawnFakePlayer(client);
-        else removeFakePlayer();
+        if (client.player == null) return;
+
+        if (active) {
+            spawnFakePlayer(client);
+            // 开启灵魂视角：允许飞行，关闭碰撞
+            client.player.getAbilities().flying = true;
+            client.player.noClip = true;
+        } else {
+            removeFakePlayer();
+            // 关闭灵魂视角：恢复正常
+            client.player.getAbilities().flying = false;
+            client.player.noClip = false;
+        }
     }
 
     public static boolean shouldCancel(Packet<?> packet) {
         if (!active) return false;
+        // 灵魂视角核心：拦截所有移动包，防止服务器发现你在乱跑
+        if (packet instanceof PlayerMoveC2SPacket) return true;
+        // 放行心跳包防止掉线
         return !(packet instanceof KeepAliveC2SPacket);
     }
 
@@ -33,8 +48,6 @@ public class PacketBlinker {
         fakePlayer.copyPositionAndRotation(client.player);
         fakePlayer.headYaw = client.player.headYaw;
         fakePlayer.setUuid(UUID.randomUUID());
-        
-        // 修正：1.20.1 需要两个参数：实体的 ID 和 实体对象本身
         client.world.addEntity(fakePlayer.getId(), fakePlayer);
     }
 
