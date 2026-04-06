@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
   "id": "mditter",
-  "version": "${version}",
+  "version": "1.4",
   "name": "MDITTER",
-  "description": "Ghost Mode for 1.21.x Series",
+  "description": "Ghost Mode v1.4 for 1.20.1",
   "authors": ["koponat"],
   "license": "GPL-3.0-or-later",
   "environment": "client",
@@ -12,9 +12,9 @@
   },
   "mixins": ["mditter.mixins.json"],
   "depends": {
-    "fabricloader": ">=0.16.0",
-    "minecraft": ">=1.21.1",
-    "java": ">=21",
+    "fabricloader": ">=0.14.22",
+    "minecraft": "1.20.1",
+    "java": ">=17",
     "fabric-api": "*"
   }
 }
