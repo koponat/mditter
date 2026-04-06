@@ -3,7 +3,7 @@ package com.koponat.mditter.network;
 import net.minecraft.client.network.OtherClientPlayerEntity;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.network.packet.Packet;
-import net.minecraft.network.packet.c2s.common.KeepAliveC2SPacket; 
+import net.minecraft.network.packet.c2s.play.KeepAliveC2SPacket; 
 import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
 import java.util.UUID;
 
@@ -17,14 +17,14 @@ public class PacketBlinker {
         active = !active;
         if (active) {
             spawnFakePlayer(client);
-            client.player.getAbilities().flying = true;
             client.player.noClip = true;
+            client.player.getAbilities().flying = true;
         } else {
             if (fakePlayer != null) {
                 client.player.refreshPositionAndAngles(fakePlayer.getX(), fakePlayer.getY(), fakePlayer.getZ(), fakePlayer.getYaw(), fakePlayer.getPitch());
             }
-            client.player.getAbilities().flying = false;
             client.player.noClip = false;
+            client.player.getAbilities().flying = false;
             removeFakePlayer();
         }
     }
@@ -45,7 +45,7 @@ public class PacketBlinker {
         fakePlayer.copyFrom(client.player);
         fakePlayer.copyPositionAndRotation(client.player);
         fakePlayer.setUuid(UUID.randomUUID());
-        client.world.addEntity(fakePlayer);
+        client.world.addEntity(fakePlayer.getId(), fakePlayer);
     }
 
     private static void removeFakePlayer() {
