@@ -1,7 +1,0 @@
-{
-  "menu.mditter.welcome": "欢迎使用 MDITTER",
-  "menu.mditter.status": "网络状态: %s",
-  "menu.mditter.blocking": "拦截中",
-  "menu.mditter.normal": "正常",
-  "hud.mditter.active": "§c[MDITTER] 数据包拦截已开启"
-}
