@@ -27,3 +27,4 @@ jobs:
         with:
           name: mditter-v1.3-1.21.x-ULTIMATE
           path: build/libs/*.jar
+          if-no-files-found: error
