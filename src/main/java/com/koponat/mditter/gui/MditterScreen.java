@@ -17,23 +17,18 @@ public class MditterScreen extends Screen {
         int x = this.width / 2 - 100;
         int y = this.height / 2 - 40;
 
-        // 按钮 1: 灵魂视角开关
-        // 注意：1.20.1 的 ButtonWidget.builder 语法
         this.addDrawableChild(ButtonWidget.builder(getToggleText(), b -> {
             PacketBlinker.toggle(MinecraftClient.getInstance());
             b.setMessage(getToggleText());
         }).dimensions(x, y, 200, 20).build());
 
-        // 按钮 2: 语言切换
         this.addDrawableChild(ButtonWidget.builder(getLangButtonText(), b -> {
             PacketBlinker.toggleLanguage();
-            // 刷新界面
             if (this.client != null) {
                 this.client.setScreen(new MditterScreen());
             }
         }).dimensions(x, y + 25, 200, 20).build());
 
-        // 按钮 3: 用户使用条款
         this.addDrawableChild(ButtonWidget.builder(
             Text.literal(PacketBlinker.getLang("mditter用户使用条款", "Mditter Terms of Service")), 
             b -> {
@@ -57,14 +52,8 @@ public class MditterScreen extends Screen {
 
     @Override
     public void render(DrawContext dc, int mx, int my, float d) {
-        // --- 核心修正点 ---
-        // 1.20.1 必须只有 dc 一个参数。
-        // 如果传入 mx, my, d，会导致 1.20.1 找不到方法直接崩溃。
         this.renderBackground(dc); 
-        
-        // 标题渲染
-        dc.drawCenteredTextWithShadow(this.textRenderer, "MDITTER v1.4 (1.20.1)", this.width / 2, 20, 0x00FF00);
-        
+        dc.drawCenteredTextWithShadow(this.textRenderer, "MDITTER v1.4 (1.20.2)", this.width / 2, 20, 0x00FF00);
         super.render(dc, mx, my, d);
     }
 
