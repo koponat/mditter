@@ -23,3 +23,4 @@ MDITTER 是一款专为 Minecraft Java版 开发的轻量化 Fabric 模组，提
 * **作者**：koponat
 * **许可证**：MIT
 * **项目地址**：[https://github.com/koponat/mditter](https://github.com/koponat/mditter)
+* **项目地址**：mditter .jar文件下载: https://github.com/koponat/mditter/releases
