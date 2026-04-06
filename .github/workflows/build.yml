@@ -1,4 +1,4 @@
-name: Build MDITTER 1.21.1
+name: Build MDITTER 1.20.1
 on: [push, pull_request]
 
 jobs:
@@ -8,10 +8,10 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set up JDK 21
+      - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
-          java-version: '21'
+          java-version: '17'
           distribution: 'microsoft'
 
       - name: Setup Gradle
@@ -23,5 +23,5 @@ jobs:
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: mditter-1.21.1-release
-          path: build/libs/mditter-1.4-fabric-1.21.1.jar
+          name: mditter-1.20.1-release
+          path: build/libs/mditter-1.4-fabric-1.20.1.jar
