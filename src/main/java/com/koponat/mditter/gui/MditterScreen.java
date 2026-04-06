@@ -53,7 +53,7 @@ public class MditterScreen extends Screen {
     @Override
     public void render(DrawContext dc, int mx, int my, float d) {
         this.renderBackground(dc, mx, my, d); 
-        dc.drawCenteredTextWithShadow(this.textRenderer, "MDITTER v1.4 (1.20.2)", this.width / 2, 20, 0x00FF00);
+        dc.drawCenteredTextWithShadow(this.textRenderer, "MDITTER v1.4 (1.21.1)", this.width / 2, 20, 0x00FF00);
         super.render(dc, mx, my, d);
     }
 
