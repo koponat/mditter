@@ -1,20 +1,30 @@
 {
   "schemaVersion": 1,
   "id": "mditter",
-  "version": "1.4",
+  "version": "${version}",
   "name": "MDITTER",
-  "description": "Ghost Mode v1.4 for 1.20.1",
-  "authors": ["koponat"],
-  "license": "GPL-3.0-or-later",
+  "description": "Packet blinker for Minecraft",
+  "authors": [
+    "Xiong"
+  ],
+  "contact": {
+    "sources": "https://github.com/koponat/mditter"
+  },
+  "license": "MIT",
+  "icon": "assets/mditter/icon.png",
   "environment": "client",
   "entrypoints": {
-    "main": ["com.koponat.mditter.MditterMod"]
+    "client": [
+      "com.koponat.mditter.MditterMod"
+    ]
   },
-  "mixins": ["mditter.mixins.json"],
+  "mixins": [
+    "mditter.mixins.json"
+  ],
   "depends": {
-    "fabricloader": ">=0.14.22",
-    "minecraft": "1.20.1",
-    "java": ">=17",
+    "fabricloader": ">=0.16.0",
+    "minecraft": ">=1.21.1",
+    "java": ">=21",
     "fabric-api": "*"
   }
 }
