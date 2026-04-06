@@ -1,12 +1,14 @@
 plugins {
-    id 'fabric-loom' version '1.4-SNAPSHOT'
+    // 升级 Loom 版本以解决 "mixin remap type value" 错误
+    id 'fabric-loom' version '1.7-SNAPSHOT' 
     id 'maven-publish'
 }
 
 version = "1.4-fabric-1.20.1"
 group = "com.koponat"
 
-// 1.20.1 推荐使用 Java 17
+// 虽然是 1.20.1，但在新版 Actions 环境下建议设为 17 
+// 如果 Actions 报错 Java 版本不匹配，也可以尝试改为 21
 sourceCompatibility = JavaVersion.VERSION_17
 targetCompatibility = JavaVersion.VERSION_17
 
@@ -16,10 +18,10 @@ repositories {
 }
 
 dependencies {
-    // 核心依赖：锁定 1.20.1
+    // 锁定 1.20.1 核心
     minecraft "com.mojang:minecraft:1.20.1"
     mappings "net.fabricmc:yarn:1.20.1+build.10:v2"
-    modImplementation "net.fabricmc:fabric-loader:0.15.7"
+    modImplementation "net.fabricmc:fabric-loader:0.15.11"
 
     // Fabric API 适配 1.20.1
     modImplementation "net.fabricmc.fabric-api:fabric-api:0.92.0+1.20.1"
@@ -40,10 +42,4 @@ tasks.withType(JavaCompile).configureEach {
 
 java {
     withSourcesJar()
-}
-
-jar {
-    from("LICENSE") {
-        rename { "${it}_${project.archivesBaseName}" }
-    }
 }
