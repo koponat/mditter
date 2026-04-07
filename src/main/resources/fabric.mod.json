@@ -1,20 +1,27 @@
-{
-  "schemaVersion": 1,
-  "id": "mditter",
-  "version": "1.5",
-  "name": "MDITTER",
-  "description": "Ghost Mode v1.5 for 1.21.1",
-  "authors": ["koponat"],
-  "license": "GPL-3.0-or-later",
-  "environment": "client",
-  "entrypoints": {
-    "main": ["com.koponat.mditter.MditterMod"]
-  },
-  "mixins": ["mditter.mixins.json"],
-  "depends": {
-    "fabricloader": ">=0.16.0",
-    "minecraft": "1.21.1",
-    "java": ">=21",
-    "fabric-api": "*"
-  }
+package com.koponat.mditter;
+
+import com.koponat.mditter.gui.MditterScreen;
+import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
+import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
+import net.minecraft.client.option.KeyBinding;
+import net.minecraft.client.util.InputUtil;
+import org.lwjgl.glfw.GLFW;
+
+public class MditterMod implements ModInitializer {
+    private static KeyBinding openGuiKey;
+    @Override
+    public void onInitialize() {
+        openGuiKey = KeyBindingHelper.registerKeyBinding(new KeyBinding(
+                "key.mditter.open_gui",
+                InputUtil.Type.KEYSYM,
+                GLFW.GLFW_KEY_J,
+                "category.mditter.general"
+        ));
+        ClientTickEvents.END_CLIENT_TICK.register(client -> {
+            while (openGuiKey.wasPressed()) {
+                client.setScreen(new MditterScreen());
+            }
+        });
+    }
 }
