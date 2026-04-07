@@ -1,59 +1,54 @@
 package com.koponat.mditter.gui;
 
-import com.koponat.mditter.network.PacketBlinker;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.text.Text;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.util.Util;
 
 public class MditterScreen extends Screen {
+    private static boolean isEnglish = false;
+
     public MditterScreen() {
-        super(Text.literal("MDITTER v1.4"));
+        super(Text.literal("MDITTER v1.5"));
     }
 
     @Override
     protected void init() {
         int x = this.width / 2 - 100;
-        int y = this.height / 2 - 40;
+        int y = this.height / 2 - 60;
 
-        // 按钮 1: 网络拦截/灵魂视角切换
-        this.addDrawableChild(ButtonWidget.builder(getToggleText(), b -> {
-            PacketBlinker.toggle(MinecraftClient.getInstance());
-            b.setMessage(getToggleText());
+        this.addDrawableChild(ButtonWidget.builder(getLangText("数据包拦截: 关闭", "Packet Blocker: OFF"), b -> {
+            // 逻辑待实现
         }).dimensions(x, y, 200, 20).build());
 
-        // 按钮 2: 语言切换
-        this.addDrawableChild(ButtonWidget.builder(getLangButtonText(), b -> {
-            PacketBlinker.toggleLanguage();
-            this.clearAndInit();
+        this.addDrawableChild(ButtonWidget.builder(getLangText("抓包器: 未就绪", "Packet Sniffer: Not Ready"), b -> {
+            // 逻辑待实现
         }).dimensions(x, y + 25, 200, 20).build());
 
-        // 按钮 3: 用户条款
-        this.addDrawableChild(ButtonWidget.builder(
-            Text.literal(PacketBlinker.getLang("mditter用户使用条款", "Mditter Terms of Service")), 
-            b -> {
-                if (this.client != null) this.client.setScreen(new MditterTermsScreen(this));
-            }
-        ).dimensions(x, y + 50, 200, 20).build());
+        this.addDrawableChild(ButtonWidget.builder(getLangText("访问 GitHub 仓库", "Visit GitHub Repository"), b -> {
+            Util.getOperatingSystem().open("https://github.com/koponat/mditter");
+        }).dimensions(x, y + 50, 200, 20).build());
+
+        this.addDrawableChild(ButtonWidget.builder(getLangText("语言: 简体中文", "Language: English"), b -> {
+            isEnglish = !isEnglish;
+            this.clearAndInit();
+        }).dimensions(x, y + 75, 200, 20).build());
     }
 
-    private Text getToggleText() {
-        // 恢复正常的命名
-        String status = PacketBlinker.isActive() ? 
-            PacketBlinker.getLang("拦截开启 (灵魂视角)", "ON (SOUL MODE)") : 
-            PacketBlinker.getLang("拦截关闭 (正常)", "OFF (NORMAL)");
-        return Text.literal(PacketBlinker.getLang("当前状态: ", "Status: ") + status);
-    }
-
-    private Text getLangButtonText() {
-        return Text.literal(PacketBlinker.getLang("语言: 简体中文", "Language: English"));
+    private Text getLangText(String zh, String en) {
+        return Text.literal(isEnglish ? en : zh);
     }
 
     @Override
     public void render(DrawContext dc, int mx, int my, float d) {
-        this.renderBackground(dc);
-        dc.drawCenteredTextWithShadow(this.textRenderer, "MDITTER v1.4", this.width / 2, 20, 0x00FF00);
         super.render(dc, mx, my, d);
+        dc.drawCenteredTextWithShadow(this.textRenderer, getLangText("欢迎使用 MDITTER v1.5", "Welcome to MDITTER v1.5"), this.width / 2, this.height / 2 - 85, 0xFFFFFF);
+    }
+
+    @Override
+    public boolean shouldPause() {
+        return false;
     }
 }
