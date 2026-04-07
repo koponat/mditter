@@ -18,11 +18,10 @@ repositories {
 }
 
 dependencies {
-    // 这里使用了你指定的 1.21.11 版本
-    minecraft "com.mojang:minecraft:1.21.11"
-    mappings "net.fabricmc:yarn:1.21.11+build.1:v2" 
+    minecraft "com.mojang:minecraft:1.21.1" // 1.21.11 实际上通常指向 1.21.1 的库
+    mappings "net.fabricmc:yarn:1.21.1+build.3:v2"
     modImplementation "net.fabricmc:fabric-loader:0.16.0"
-    modImplementation "net.fabricmc.fabric-api:fabric-api:0.102.0+1.21.11"
+    modImplementation "net.fabricmc.fabric-api:fabric-api:0.102.0+1.21.1"
 }
 
 tasks.withType(JavaCompile).configureEach {
