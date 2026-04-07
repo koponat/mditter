@@ -5,5 +5,4 @@ pluginManagement {
         gradlePluginPortal()
     }
 }
-
 rootProject.name = 'mditter'
