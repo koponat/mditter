@@ -8,7 +8,9 @@
   "license": "GPL-3.0-or-later",
   "environment": "client",
   "entrypoints": {
-    "main": ["com.koponat.mditter.MditterMod"]
+    "main": [
+      "com.koponat.mditter.MditterMod"
+    ]
   },
   "depends": {
     "fabricloader": ">=0.16.0",
