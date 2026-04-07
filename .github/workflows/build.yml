@@ -1,4 +1,4 @@
-name: Build MDITTER 1.21.1
+name: Build MDITTER 1.21.11
 on: [push, pull_request]
 
 jobs:
@@ -14,11 +14,13 @@ jobs:
           java-version: '21'
           distribution: 'microsoft'
 
-      - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v4
-        with:
-          gradle-version: 8.10  # 强制使用 8.10
+      - name: Manual Install Gradle 8.10
+        # 彻底解决系统自带 8.1 不退出的问题
+        run: |
+          wget -q https://services.gradle.org/distributions/gradle-8.10-bin.zip
+          unzip -q gradle-8.10-bin.zip
+          echo "$(pwd)/gradle-8.10/bin" >> $GITHUB_PATH
 
-      - name: Build with Gradle
-        # 这里必须直接运行 gradle 命令
+      - name: Build with Gradle 8.10
+        # 强制使用刚才安装的 8.10
         run: gradle build --no-daemon
