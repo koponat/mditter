@@ -7,25 +7,20 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-
       - name: Set up JDK 21
         uses: actions/setup-java@v4
         with:
           java-version: '21'
           distribution: 'microsoft'
-
       - name: Manual Install Gradle 8.10
         run: |
           wget -q https://services.gradle.org/distributions/gradle-8.10-bin.zip
           unzip -q gradle-8.10-bin.zip
           echo "$(pwd)/gradle-8.10/bin" >> $GITHUB_PATH
-
       - name: Build with Gradle 8.10
         run: gradle build --no-daemon
-
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
           name: mditter-v1.5-release
           path: build/libs/*.jar
-          if-no-files-found: error
