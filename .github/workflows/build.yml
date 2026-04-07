@@ -1,4 +1,4 @@
-name: Build MDITTER 1.21.11
+name: Build MDITTER v1.5
 on: [push, pull_request]
 
 jobs:
