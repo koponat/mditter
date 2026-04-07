@@ -3,10 +3,17 @@
   "id": "mditter",
   "version": "1.5",
   "name": "MDITTER",
-  "description": "Ghost Mode v1.5 for 1.21.1",
+  "description": "Ghost Mode v1.5 for 1.21.11",
   "authors": ["koponat"],
   "license": "GPL-3.0-or-later",
   "environment": "client",
-  "entrypoints": { "main": ["com.koponat.mditter.MditterMod"] },
-  "depends": { "fabricloader": ">=0.16.0", "minecraft": "1.21.1", "java": ">=21", "fabric-api": "*" }
+  "entrypoints": {
+    "main": ["com.koponat.mditter.MditterMod"]
+  },
+  "depends": {
+    "fabricloader": ">=0.16.0",
+    "minecraft": "1.21.11",
+    "java": ">=21",
+    "fabric-api": "*"
+  }
 }
