@@ -14,11 +14,11 @@ jobs:
           java-version: '21'
           distribution: 'microsoft'
 
-      - name: Setup Gradle 8.10
-        uses: gradle/actions/setup-gradle@v3
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
         with:
-          gradle-version: 8.10  # 强制安装 8.10
+          gradle-version: 8.10  # 强制使用 8.10
 
       - name: Build with Gradle
-        # 使用全路径调用确保版本正确
+        # 这里必须直接运行 gradle 命令
         run: gradle build --no-daemon
