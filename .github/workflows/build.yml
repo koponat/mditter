@@ -15,12 +15,17 @@ jobs:
           distribution: 'microsoft'
 
       - name: Manual Install Gradle 8.10
-        # 彻底解决系统自带 8.1 不退出的问题
         run: |
           wget -q https://services.gradle.org/distributions/gradle-8.10-bin.zip
           unzip -q gradle-8.10-bin.zip
           echo "$(pwd)/gradle-8.10/bin" >> $GITHUB_PATH
 
       - name: Build with Gradle 8.10
-        # 强制使用刚才安装的 8.10
         run: gradle build --no-daemon
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: mditter-v1.5-release
+          path: build/libs/*.jar
+          if-no-files-found: error
