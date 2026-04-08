@@ -4,9 +4,9 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.text.Text;
-import net.minecraft.util.Util;
 
 public class MditterScreen extends Screen {
+    public static boolean packetBlockerActive = false;
     private static boolean isEnglish = false;
 
     public MditterScreen() {
@@ -18,17 +18,23 @@ public class MditterScreen extends Screen {
         int x = this.width / 2 - 100;
         int y = this.height / 2 - 60;
 
-        this.addDrawableChild(ButtonWidget.builder(getLangText("数据包拦截: 关闭", "Packet Blocker: OFF"), b -> {
-        }).dimensions(x, y, 200, 20).build());
+        this.addDrawableChild(ButtonWidget.builder(
+            getLangText("数据包拦截: " + (packetBlockerActive ? "开启" : "关闭"), 
+                        "Packet Blocker: " + (packetBlockerActive ? "ON" : "OFF")), 
+            button -> {
+                packetBlockerActive = !packetBlockerActive;
+                button.setMessage(getLangText("数据包拦截: " + (packetBlockerActive ? "开启" : "关闭"), 
+                                             "Packet Blocker: " + (packetBlockerActive ? "ON" : "OFF")));
+            }
+        ).dimensions(x, y, 200, 20).build());
 
-        this.addDrawableChild(ButtonWidget.builder(getLangText("访问 GitHub", "Visit GitHub"), b -> {
-            Util.getOperatingSystem().open("https://github.com/koponat/mditter");
-        }).dimensions(x, y + 25, 200, 20).build());
-
-        this.addDrawableChild(ButtonWidget.builder(getLangText("语言切换", "Switch Language"), b -> {
-            isEnglish = !isEnglish;
-            this.clearAndInit();
-        }).dimensions(x, y + 50, 200, 20).build());
+        this.addDrawableChild(ButtonWidget.builder(
+            getLangText("语言切换", "Switch Language"), 
+            button -> {
+                isEnglish = !isEnglish;
+                this.clearAndInit();
+            }
+        ).dimensions(x, y + 25, 200, 20).build());
     }
 
     private Text getLangText(String zh, String en) {
@@ -38,7 +44,9 @@ public class MditterScreen extends Screen {
     @Override
     public void render(DrawContext dc, int mx, int my, float d) {
         super.render(dc, mx, my, d);
-        dc.drawCenteredTextWithShadow(this.textRenderer, getLangText("欢迎使用 MDITTER v1.5", "Welcome to MDITTER v1.5"), this.width / 2, this.height / 2 - 85, 0xFFFFFF);
+        dc.drawCenteredTextWithShadow(this.textRenderer, 
+            getLangText("MDITTER 控制面板", "MDITTER Control Panel"), 
+            this.width / 2, this.height / 2 - 85, 0xFFFFFF);
     }
 
     @Override
