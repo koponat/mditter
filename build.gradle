@@ -18,7 +18,6 @@ repositories {
 }
 
 dependencies {
-    // 降回 1.21 标准版
     minecraft "com.mojang:minecraft:1.21"
     mappings "net.fabricmc:yarn:1.21+build.2:v2"
     modImplementation "net.fabricmc:fabric-loader:0.16.0"
