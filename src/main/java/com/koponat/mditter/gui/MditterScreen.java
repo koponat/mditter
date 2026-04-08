@@ -18,19 +18,16 @@ public class MditterScreen extends Screen {
         int x = this.width / 2 - 100;
         int y = this.height / 2 - 60;
 
-        // 功能按钮示例
         this.addDrawableChild(ButtonWidget.builder(getLangText("数据包拦截: 关闭", "Packet Blocker: OFF"), b -> {
         }).dimensions(x, y, 200, 20).build());
 
-        // 访问仓库
         this.addDrawableChild(ButtonWidget.builder(getLangText("访问 GitHub", "Visit GitHub"), b -> {
             Util.getOperatingSystem().open("https://github.com/koponat/mditter");
         }).dimensions(x, y + 25, 200, 20).build());
 
-        // 切换语言按钮
         this.addDrawableChild(ButtonWidget.builder(getLangText("语言切换", "Switch Language"), b -> {
             isEnglish = !isEnglish;
-            this.clearAndInit(); // 刷新界面显示
+            this.clearAndInit();
         }).dimensions(x, y + 50, 200, 20).build());
     }
 
