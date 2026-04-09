@@ -4,9 +4,11 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.text.Text;
+import net.minecraft.util.Util;
 
 public class MditterScreen extends Screen {
     public static boolean packetBlockerActive = false;
+    public static boolean ghostModeActive = false;
     private static boolean isEnglish = false;
 
     public MditterScreen() {
@@ -29,12 +31,29 @@ public class MditterScreen extends Screen {
         ).dimensions(x, y, 200, 20).build());
 
         this.addDrawableChild(ButtonWidget.builder(
+            getLangText("虚拟人镜像: " + (ghostModeActive ? "开启" : "关闭"), 
+                        "Ghost Mode: " + (ghostModeActive ? "ON" : "OFF")), 
+            button -> {
+                ghostModeActive = !ghostModeActive;
+                button.setMessage(getLangText("虚拟人镜像: " + (ghostModeActive ? "开启" : "关闭"), 
+                                             "Ghost Mode: " + (ghostModeActive ? "ON" : "OFF")));
+            }
+        ).dimensions(x, y + 25, 200, 20).build());
+
+        this.addDrawableChild(ButtonWidget.builder(
+            getLangText("访问 GitHub 仓库", "Visit GitHub Repository"), 
+            button -> {
+                Util.getOperatingSystem().open("https://github.com/koponat/mditter");
+            }
+        ).dimensions(x, y + 50, 200, 20).build());
+
+        this.addDrawableChild(ButtonWidget.builder(
             getLangText("语言切换", "Switch Language"), 
             button -> {
                 isEnglish = !isEnglish;
                 this.clearAndInit();
             }
-        ).dimensions(x, y + 25, 200, 20).build());
+        ).dimensions(x, y + 75, 200, 20).build());
     }
 
     private Text getLangText(String zh, String en) {
@@ -44,13 +63,9 @@ public class MditterScreen extends Screen {
     @Override
     public void render(DrawContext dc, int mx, int my, float d) {
         super.render(dc, mx, my, d);
-        dc.drawCenteredTextWithShadow(this.textRenderer, 
-            getLangText("MDITTER 控制面板", "MDITTER Control Panel"), 
-            this.width / 2, this.height / 2 - 85, 0xFFFFFF);
+        dc.drawCenteredTextWithShadow(this.textRenderer, "MDITTER v1.5 - Control Panel", this.width / 2, this.height / 2 - 85, 0xFFFFFF);
     }
 
     @Override
-    public boolean shouldPause() {
-        return false;
-    }
+    public boolean shouldPause() { return false; }
 }
