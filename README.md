@@ -1,6 +1,6 @@
 # MDITTER v1.5
 
-MDITTER 是一款专为 Minecraft 1.21.1 开发的 Fabric 轻量化功能模组，专注于数据包分析与安全控制。
+MDITTER 是一款专为 Minecraft 开发的 Fabric 轻量化功能模组，专注于数据包分析与安全控制。
 
 ## 核心功能
 * **欢迎界面**：全新设计的 v1.5 交互 UI，启动即见。
