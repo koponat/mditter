@@ -63,9 +63,11 @@ public class MditterScreen extends Screen {
     @Override
     public void render(DrawContext dc, int mx, int my, float d) {
         super.render(dc, mx, my, d);
-        dc.drawCenteredTextWithShadow(this.textRenderer, "MDITTER v1.5 - Control Panel", this.width / 2, this.height / 2 - 85, 0xFFFFFF);
+        dc.drawCenteredTextWithShadow(this.textRenderer, "MDITTER v1.5", this.width / 2, this.height / 2 - 85, 0xFFFFFF);
     }
 
     @Override
-    public boolean shouldPause() { return false; }
+    public boolean shouldPause() {
+        return false;
+    }
 }
