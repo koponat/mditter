@@ -13,7 +13,7 @@ public class MditterScreen extends Screen {
     private static boolean isEnglish = false;
 
     public MditterScreen() {
-        super(Text.literal("MDITTER v1.5"));
+        super(Text.literal("MDITTER PRO v1.5"));
     }
 
     @Override
@@ -22,44 +22,44 @@ public class MditterScreen extends Screen {
         int y = this.height / 2 - 80;
 
         this.addDrawableChild(ButtonWidget.builder(
-            getLangText("数据包拦截: " + (packetBlockerActive ? "开启" : "关闭"), 
+            getLangText("数据包拦截: " + (packetBlockerActive ? "ON" : "OFF"), 
                         "Packet Blocker: " + (packetBlockerActive ? "ON" : "OFF")), 
             button -> {
                 packetBlockerActive = !packetBlockerActive;
-                button.setMessage(getLangText("数据包拦截: " + (packetBlockerActive ? "开启" : "关闭"), 
+                button.setMessage(getLangText("数据包拦截: " + (packetBlockerActive ? "ON" : "OFF"), 
                                              "Packet Blocker: " + (packetBlockerActive ? "ON" : "OFF")));
             }
         ).dimensions(x, y, 200, 20).build());
 
         this.addDrawableChild(ButtonWidget.builder(
-            getLangText("虚拟人镜像: " + (ghostModeActive ? "开启" : "关闭"), 
+            getLangText("虚拟人镜像: " + (ghostModeActive ? "ON" : "OFF"), 
                         "Ghost Mode: " + (ghostModeActive ? "ON" : "OFF")), 
             button -> {
                 ghostModeActive = !ghostModeActive;
-                button.setMessage(getLangText("虚拟人镜像: " + (ghostModeActive ? "开启" : "关闭"), 
+                button.setMessage(getLangText("虚拟人镜像: " + (ghostModeActive ? "ON" : "OFF"), 
                                              "Ghost Mode: " + (ghostModeActive ? "ON" : "OFF")));
             }
         ).dimensions(x, y + 25, 200, 20).build());
 
         this.addDrawableChild(ButtonWidget.builder(
-            getLangText("抓包器: " + (snifferActive ? "正在抓取" : "已停止"), 
-                        "Packet Sniffer: " + (snifferActive ? "SNIFFING" : "STOPPED")), 
+            getLangText("抓包器状态: " + (snifferActive ? "运行中" : "已停止"), 
+                        "Sniffer: " + (snifferActive ? "RUNNING" : "STOPPED")), 
             button -> {
                 snifferActive = !snifferActive;
-                button.setMessage(getLangText("抓包器: " + (snifferActive ? "正在抓取" : "已停止"), 
-                                             "Packet Sniffer: " + (snifferActive ? "SNIFFING" : "STOPPED")));
+                button.setMessage(getLangText("抓包器状态: " + (snifferActive ? "运行中" : "已停止"), 
+                                             "Sniffer: " + (snifferActive ? "RUNNING" : "STOPPED")));
             }
         ).dimensions(x, y + 50, 200, 20).build());
 
         this.addDrawableChild(ButtonWidget.builder(
-            getLangText("访问 GitHub 仓库", "Visit GitHub Repository"), 
+            getLangText("访问仓库", "GitHub"), 
             button -> {
                 Util.getOperatingSystem().open("https://github.com/koponat/mditter");
             }
         ).dimensions(x, y + 75, 200, 20).build());
 
         this.addDrawableChild(ButtonWidget.builder(
-            getLangText("语言切换", "Switch Language"), 
+            getLangText("语言切换", "Language"), 
             button -> {
                 isEnglish = !isEnglish;
                 this.clearAndInit();
@@ -74,11 +74,9 @@ public class MditterScreen extends Screen {
     @Override
     public void render(DrawContext dc, int mx, int my, float d) {
         super.render(dc, mx, my, d);
-        dc.drawCenteredTextWithShadow(this.textRenderer, "MDITTER - PRO EDITION", this.width / 2, this.height / 2 - 105, 0xFF55FF);
+        dc.drawCenteredTextWithShadow(this.textRenderer, "MDITTER v1.5 - PRIVACY MODE", this.width / 2, this.height / 2 - 105, 0xFF55FF);
     }
 
     @Override
-    public boolean shouldPause() {
-        return false;
-    }
+    public boolean shouldPause() { return false; }
 }
