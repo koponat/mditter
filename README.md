@@ -1,5 +1,8 @@
 # MDITTER v1.5
 
+<img width="1376" height="768" alt="mditter-logo" src="https://github.com/user-attachments/assets/35742a03-1bfb-48f5-ad38-20c63c1b1de3" />
+
+
 MDITTER 是一款专为 Minecraft 开发的 Fabric 轻量化功能模组，专注于数据包分析与安全控制。
 
 ## 核心功能
